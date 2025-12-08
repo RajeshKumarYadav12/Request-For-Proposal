@@ -1,4 +1,0 @@
-{
-  "buildCommand": "echo 'Backend ready'",
-  "outputDirectory": "backend"
-}
