@@ -25,6 +25,21 @@ app.use('/api/rfps', rfpRoutes);
 app.use('/api/vendors', vendorRoutes);
 app.use('/api/proposals', proposalRoutes);
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'AI RFP Manager API',
+    version: '1.0.0',
+    endpoints: {
+      health: '/health or /api/health',
+      rfps: '/api/rfps',
+      vendors: '/api/vendors',
+      proposals: '/api/proposals'
+    }
+  });
+});
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ success: true, message: 'AI RFP Manager API is running' });
