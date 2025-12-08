@@ -30,9 +30,13 @@ app.get('/health', (req, res) => {
   res.json({ success: true, message: 'AI RFP Manager API is running' });
 });
 
+app.get('/api/health', (req, res) => {
+  res.json({ success: true, message: 'AI RFP Manager API is running' });
+});
+
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ success: false, error: 'Route not found' });
+  res.status(404).json({ success: false, error: 'Route not found', path: req.path });
 });
 
 // Global error handler

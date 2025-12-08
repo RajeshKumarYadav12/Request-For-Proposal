@@ -5,11 +5,27 @@ import { config } from './config/index.js';
 /**
  * Connect to MongoDB and start the Express server.
  */
+
+let isConnected = false;
+
+const connectDB = async () => {
+  if (isConnected) {
+    return;
+  }
+
+  try {
+    await mongoose.connect(config.mongoUri);
+    isConnected = true;
+    console.log('✓ Connected to MongoDB');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    throw error;
+  }
+};
+
 const startServer = async () => {
   try {
-    // Connect to MongoDB
-    await mongoose.connect(config.mongoUri);
-    console.log('✓ Connected to MongoDB');
+    await connectDB();
 
     // Start Express server
     app.listen(config.port, () => {
@@ -23,4 +39,13 @@ const startServer = async () => {
   }
 };
 
-startServer();
+// For Vercel serverless
+export default async function handler(req, res) {
+  await connectDB();
+  return app(req, res);
+}
+
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+  startServer();
+}
