@@ -9,7 +9,7 @@ dotenv.config();
 export const config = {
   port: process.env.PORT || 4000,
   nodeEnv: process.env.NODE_ENV || 'development',
-  mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017/ai_rfp_manager',
+  mongoUri: process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/ai_rfp_manager',
   
   // Email sending (SMTP)
   email: {

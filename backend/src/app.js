@@ -9,8 +9,13 @@ import proposalRoutes from './routes/proposal.routes.js';
  */
 const app = express();
 
-// Middleware
-app.use(cors());
+// Middleware - CORS with explicit configuration for Vercel
+app.use(cors({
+  origin: '*', // Allow all origins for now
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
