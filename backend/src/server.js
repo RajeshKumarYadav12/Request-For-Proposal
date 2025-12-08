@@ -13,12 +13,22 @@ const connectDB = async () => {
     return;
   }
 
+  const mongoUri = config.mongoUri;
+  
+  if (!mongoUri || mongoUri.includes('localhost')) {
+    throw new Error('MONGODB_URI environment variable is not set correctly. Please set it in Vercel environment variables.');
+  }
+
   try {
-    await mongoose.connect(config.mongoUri);
+    await mongoose.connect(mongoUri, {
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
     isConnected = true;
     console.log('✓ Connected to MongoDB');
   } catch (error) {
     console.error('MongoDB connection error:', error);
+    console.error('MongoDB URI starts with:', mongoUri?.substring(0, 20));
     throw error;
   }
 };
